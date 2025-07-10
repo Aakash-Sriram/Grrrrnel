@@ -1,7 +1,22 @@
-org 0x7c00
+org 0
 bits 16 
 
-jmp main
+jmp 0x7c0:main
+
+
+
+main:
+    cli;clear interupts
+    mov ax,0x7c0
+    mov ds,ax ; manually seting these segments to avoid undefined 
+    mov es,ax
+    mov ax,0x00
+    mov ss,ax
+    mov sp,0x7c0
+    sti;enable interupts
+    mov si , message 
+    call print
+    jmp $
 
 print:
 ._loop:
@@ -14,11 +29,6 @@ print:
     jmp ._loop
 .done:
     ret
-
-main:
-    mov si , message 
-    call print
-    jmp $
 
 message: db 'Hello, World!',0
 
