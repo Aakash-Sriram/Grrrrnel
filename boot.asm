@@ -1,9 +1,13 @@
 org 0
 bits 16 
 
-jmp 0x7c0:main
+bpb:
+    jmp short start
+    nop 
+    times 33 db 0 
 
-
+start:
+    jmp 0x7c0:main
 
 main:
     cli;clear interupts
