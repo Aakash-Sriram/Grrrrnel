@@ -9,6 +9,15 @@ bpb:
 start:
     jmp 0x7c0:main
 
+intZero:
+    mov ah,0eh
+    mov al,48
+    int 10h
+    mov al, 0x0D  
+    int 10h
+    mov al,10
+    int 10h
+    iret    ;own interrupt to handle zeroDivision 
 main:
     cli;clear interupts
     mov ax,0x7c0
@@ -18,8 +27,14 @@ main:
     mov ss,ax
     mov sp,0x7c0
     sti;enable interupts
+    
+    mov word[ss:0x00] , intZero
+    mov word[ss:0x02] , 0x7c0 
+    int 0
+    
     mov si , message 
     call print
+    
     jmp $
 
 print:
